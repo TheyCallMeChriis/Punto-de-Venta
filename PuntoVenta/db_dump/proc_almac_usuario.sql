@@ -30,34 +30,25 @@ begin
     end if;
     return _cant;
 end$$
-DROP FUNCTION IF EXISTS rolUsuario$$
-CREATE FUNCTION rolUsuario (
+DROP PROCEDURE IF EXISTS rolUsuario$$
+CREATE PROCEDURE rolUsuario (
     _id int, 
     _rol int
-    ) RETURNS INT(1) 
+    )
 begin
-    declare _cant int;
-    select count(id) into _cant from usuario where id = _id;
-    if _cant > 0 then
         update usuario set
             rol = _rol
         where id = _id;
-    end if;
-    return _cant;
 end$$
-DROP FUNCTION IF EXISTS passwUsuario$$
-CREATE FUNCTION passwUsuario (
+DROP PROCEDURE IF EXISTS passwUsuario$$
+CREATE PROCEDURE passwUsuario (
     _id int, 
     _passw Varchar(255)
-    ) RETURNS INT(1) 
+    ) 
 begin
-    declare _cant int;
-    select count(id) into _cant from usuario where id = _id;
-    if _cant > 0 then
         update usuario set
             passw = _passw
         where id = _id;
-    end if;
-    return _cant;
+
 end$$
 DELIMITER ;
