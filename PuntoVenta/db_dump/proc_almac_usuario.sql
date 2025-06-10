@@ -8,6 +8,7 @@ end$$
 DROP FUNCTION IF EXISTS nuevoUsuario$$
 CREATE FUNCTION nuevoUsuario (
     _idUsuario Varchar(15),
+    _correo Varchar (100),
     _rol int,
     _passw Varchar (255))
     RETURNS INT(1) 
@@ -15,8 +16,8 @@ begin
     declare _cant int;
     select count(id) into _cant from usuario where idUsuario = _idUsuario;
     if _cant < 1 then
-        insert into usuario(idUsuario, rol, passw) 
-            values (_idUsuario, _rol, _passw);
+        insert into usuario(idUsuario, correo, rol, passw) 
+            values (_idUsuario, _correo, _rol, _passw);
     end if;
     return _cant;
 end$$

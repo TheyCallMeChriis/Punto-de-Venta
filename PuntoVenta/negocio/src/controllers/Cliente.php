@@ -6,9 +6,9 @@
     
     use PDO;
 
-    class Artefacto extends ServicioCURL{
+    class Cliente extends ServicioCURL{
         protected $container;
-        private const ENDPOINT = "/artefacto";
+        private const ENDPOINT = "/cliente";
 
         public function __construct(ContainerInterface $c){
             $this->container = $c;
@@ -33,16 +33,15 @@
         }
 
         public function update(Request $request, Response $response, $args){
-          //$uri ='/'.$args['id'];
-          $uri="/{$args['id']}";
-          $body = $request->getBody();
-          $respA = $this->ejecutarCURL($this::ENDPOINT,'PUT',$body);
-          return $response->withStatus($respA['status']);
+         $uri = "/{$args['id']}";
+         $body = $request->getBody();
+         $respA = $this->ejecutarCURL($this::ENDPOINT . $uri, 'PUT', $body);
+         return $response->withStatus($respA['status']);
         }
 
       public function delete(Request $request, Response $response, $args){
         $uri="/{$args['id']}";
-        $respA = $this->ejecutarCURL($this::ENDPOINT,'DELETE');
+        $respA = $this->ejecutarCURL($this::ENDPOINT . $uri,'DELETE');
         return $response->withStatus($respA['status']);
       }
 

@@ -67,9 +67,10 @@ DROP TABLE IF EXISTS usuario;
 CREATE TABLE usuario (
   id int(11) NOT NULL AUTO_INCREMENT,  
   idUsuario Varchar(15) NOT NULL,
+  correo Varchar (100) NOT NULL,
   rol int not NULL,
   passw varchar(255) not NULL,
-  ultimoAcceso Datetime,
+  ultimoAcceso Datetime,m
   PRIMARY KEY (id),
   UNIQUE KEY idx_Usuario (idUsuario)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
