@@ -16,7 +16,7 @@ CREATE PROCEDURE filtrarCliente (
     _pagina SMALLINT UNSIGNED, 
     _cantRegs SMALLINT UNSIGNED)
 begin
-    SELECT cadenaFiltro(_parametros, 'idCliente&nombre&apellido1&apellido2&') INTO @filtro;
+    SELECT cadenaFiltro(_parametros, 'idCliente&nombre&apellido1&apellido2&correo') INTO @filtro;
     SELECT concat("SELECT * from cliente where ", @filtro, " LIMIT ", 
         _pagina, ", ", _cantRegs) INTO @sql;
     PREPARE stmt FROM @sql;
@@ -58,6 +58,7 @@ begin
     return _cant;
 end$$
 
+
 DROP FUNCTION IF EXISTS editarCliente$$
 CREATE FUNCTION editarCliente (
     _id int, 
@@ -68,12 +69,11 @@ CREATE FUNCTION editarCliente (
     _telefono Varchar (9),
     _celular Varchar (9),
     _direccion Varchar (255),
-    _correo Varchar (100)
+    _correo  Varchar (100)
     ) RETURNS INT(1) 
 begin
-    declare _cant int;
     declare no_encontrado int default 0;
-    if not exists(select id from cliente where id = _id) then
+    if NOT EXISTS(SELECT id FROM cliente WHERE id = _id) then
         set no_encontrado = 1;
     else
         update cliente set
@@ -110,22 +110,20 @@ begin
     return _resp;
 end$$
 
-
-DROP TRIGGER IF EXISTS actualizar_Cliente$$
-CREATE TRIGGER actualizar_Cliente AFTER UPDATE ON cliente FOR EACH ROW
+DROP TRIGGER IF EXISTS actualizar_cliente$$
+CREATE TRIGGER actualizar_cliente AFTER UPDATE ON cliente FOR EACH ROW
 BEGIN
-        UPDATE usuario
-        SET idUsuario = NEW.idCliente, 
+    UPDATE usuario 
+        SET idUsuario = NEW.idCliente,
             correo = NEW.correo
         WHERE idUsuario = OLD.idCliente;
 END$$
 
-DROP TRIGGER IF EXISTS eliminar_Cliente$$
-CREATE TRIGGER eliminar_Cliente AFTER DELETE ON cliente FOR EACH ROW
+
+DROP TRIGGER IF EXISTS eliminar_cliente$$
+CREATE TRIGGER eliminar_cliente AFTER DELETE ON cliente FOR EACH ROW
 BEGIN
     DELETE FROM usuario
-    WHERE idUsuario = OLD.idCliente;
+        WHERE idUsuario = OLD.idCliente;        
 END$$
-
-
 DELIMITER ;

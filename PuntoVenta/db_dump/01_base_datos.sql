@@ -46,16 +46,31 @@ CREATE TABLE cliente (
   UNIQUE KEY idx_Correo (correo)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
+DROP TABLE IF EXISTS administrador;
+CREATE TABLE administrador (
+  id int(11) NOT NULL AUTO_INCREMENT,  
+  idAdministrador Varchar(15) NOT NULL,
+  nombre Varchar (30) COLLATE utf8_spanish_ci NOT NULL,
+  apellido1 Varchar (15) COLLATE utf8_spanish_ci NOT NULL,
+  apellido2 Varchar (15) COLLATE utf8_spanish_ci NOT NULL,
+  telefono Varchar (9) NOT NULL,
+  celular Varchar (9),
+  direccion Varchar (255) COLLATE utf8_spanish_ci,
+  correo Varchar (100) NOT NULL,
+  fechaIngreso Datetime DEFAULT now(),
+  PRIMARY KEY (id),
+  UNIQUE KEY idx_Administrador (idAdministrador),
+  UNIQUE KEY idx_Correo (correo)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 DROP TABLE IF EXISTS usuario;
 CREATE TABLE usuario (
   id int(11) NOT NULL AUTO_INCREMENT,  
   idUsuario Varchar(15) NOT NULL,
-  correo Varchar(100) NOT NULL,
+  correo VARCHAR(100),
   rol int not NULL,
   passw varchar(255) not NULL,
   ultimoAcceso Datetime,
-  tkRef varchar(255) DEFAULT NULL, -- Token de referencia para la sesión
   PRIMARY KEY (id),
   UNIQUE KEY idx_Usuario (idUsuario)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
@@ -81,23 +96,6 @@ CREATE TABLE historialCaso (
   fechaCambio Date,
   descripcion VARCHAR(255) COLLATE utf8_spanish_ci NOT NULL,
   PRIMARY KEY (id)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
-
-DROP TABLE IF EXISTS administrador;
-CREATE TABLE administrador (
-  id INT(11) NOT NULL AUTO_INCREMENT,
-  idAdministrador VARCHAR(15) NOT NULL,
-  nombre VARCHAR(30) COLLATE utf8_spanish_ci NOT NULL,
-  apellido1 VARCHAR(15) COLLATE utf8_spanish_ci NOT NULL,
-  apellido2 VARCHAR(15) COLLATE utf8_spanish_ci NOT NULL,
-  telefono VARCHAR(9) NOT NULL,
-  celular VARCHAR(9),
-  direccion VARCHAR(255) COLLATE utf8_spanish_ci,
-  correo VARCHAR(100) NOT NULL,
-  fechaIngreso DATETIME DEFAULT NOW(),
-  PRIMARY KEY (id),
-  UNIQUE KEY idx_Administrador (idAdministrador),
-  UNIQUE KEY idx_CorreoAdministrador (correo)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 COMMIT;

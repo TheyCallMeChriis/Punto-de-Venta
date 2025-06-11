@@ -2,7 +2,7 @@
 namespace App\controllers;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use Psr\Container\ContainerInterface;
+//use Psr\Container\ContainerInterface;
 use Slim\Routing\RouteCollectorProxy;
 
 $app->get('/', function (Request $request, Response $response, $args) {
@@ -18,14 +18,34 @@ $app->group('/api',function(RouteCollectorProxy $api){
         $endpoint->delete('/{id}',Artefacto::class . ':delete');//eliminar
         $endpoint->get('/filtrar/{pag}/{lim}',Artefacto::class . ':filtrar'); //filtrar
     });
-});
 
-$app->group('/api',function(RouteCollectorProxy $api){
-    $api->group('/cliente',function(RouteCollectorProxy $endpoint){
-        $endpoint->get('[/read/{id}]',Cliente::class .':read');//leer
-        $endpoint->post('',Cliente::class.':create'); //crear
-        $endpoint->put('/{id}',Cliente::class . ':update');//actualizar
-        $endpoint->delete('/{id}',Cliente::class . ':delete');//eliminar
-        $endpoint->get('/filtrar/{pag}/{lim}',Cliente::class . ':filtrar'); //filtrar
+
+    $api->group('/cliente', function (RouteCollectorProxy $endpoint) {
+        $endpoint->get('/read[/{id}]', Cliente::class . ':read');
+        $endpoint->post('', Cliente::class . ':create');
+        $endpoint->put('/{id}', Cliente::class . ':update');
+        $endpoint->delete('/{id}', Cliente::class . ':delete');
+        $endpoint->get('/filtrar/{pag}/{lim}', Cliente::class . ':filtrar');
     });
+
+    $api->group('/administrador', function (RouteCollectorProxy $endpoint) {
+        $endpoint->get('/read[/{id}]', Administrador::class . ':read');
+        $endpoint->post('', Administrador::class . ':create');
+        $endpoint->put('/{id}', Administrador::class . ':update');
+        $endpoint->delete('/{id}', Administrador::class . ':delete');
+        $endpoint->get('/filtrar/{pag}/{lim}', Administrador::class . ':filtrar');
+    });
+
+    $api->group('/user', function (RouteCollectorProxy $endpoint) {
+        $endpoint->patch('/reset/{idUsuario}', Usuario::class . ':resetPassw');
+        $endpoint->patch('/change/{idUsuario}', Usuario::class . ':changePassw');
+        $endpoint->patch('/rol/{idUsuario}', Usuario::class . ':changeRol');
+    });
+
+    $api->group('/auth', function (RouteCollectorProxy $endpoint) {
+        $endpoint->patch('', Auth::class . ':iniciar');
+        $endpoint->patch('/refrescar', Auth::class . ':refrescar');
+        $endpoint->delete('/{idUsuario}', Auth::class . ':cerrar');
+    });
+
 });

@@ -12,7 +12,4 @@ $app = AppFactory::create();
 
 require 'routes.php';
 
-
-
-
 $app->run();

@@ -1,0 +1,59 @@
+@uriAuth = http://localhost:8000/api/auth
+@token = Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJsb2NhbGhvc3QiLCJpYXQiOjE3NDkyMjYxMDQsImV4cCI6MTc0OTIyOTcwNCwic3ViIjoiOCIsInJvbCI6IjQiLCJub20iOiJzZGEifQ.kWAWywQ1BACyhyTHYxQ6JXlEkSgknINxoD1n5dhoPDQ
+
+PATCH {{uriAuth}}
+Content-Type: application/json
+
+{
+  "idUsuario": "1",
+  "passw": "1234",
+}
+
+###
+PATCH {{uriAuth}}/refrescar
+Content-Type: application/json
+
+{
+  "idUsuario": "8",
+  "tkRef": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJsb2NhbGhvc3QiLCJpYXQiOjE3NDkyMjYxMDQsInJvbCI6IjQiLCJub20iOiJzZGEifQ.wmVdlFSGpb01LavUO0aYDEmQs7iEOpvTDwItD2jQNs4"
+}
+
+###
+
+###
+
+DELETE {{uriAuth}}/2
+
+###
+
+INSERT INTO Usuario (idUsuario, passw, rol, nombre)
+VALUES (8, '8', '4', 'Chris');
+
+
+
+###
+
+@uriCliente = http://localhost:8000/api/cliente
+GET {{uriCliente}}/read
+Content-Type: application/json
+Authorization: {{token}}
+
+
+###
+
+POST {{uriCliente}}
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+  "idCliente": 8,
+  "nombre": "sda",
+  "apellido1": "asda",
+  "apellido2": "asd",
+  "telefono": "556789",
+  "celular": "654845",
+  "direccion": "Avenida Central 101",
+  "correo": "sad.asda@example.com"
+}
+
+###
