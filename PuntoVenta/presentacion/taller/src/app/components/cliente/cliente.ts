@@ -7,66 +7,62 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDialog } from '@angular/material/dialog';
 import { FrmCliente } from '../forms/frm-cliente/frm-cliente';
 
-
 @Component({
   selector: 'app-cliente',
   imports: [MatCardModule, MatTableModule, MatIconModule],
   templateUrl: './cliente.html',
-  styleUrl: './cliente.css'
+  styleUrl: './cliente.css',
 })
 export class Cliente implements AfterViewInit {
   private readonly clienteSrv = inject(ClienteServices);
-  
+
   private readonly dialogo = inject(MatDialog);
 
-  columnas: string[] = ['idCliente', 'nombre', 'apellido1', 'apellido2', 'celular', 'correo', 'botonera']
+  columnas: string[] = [
+    'idCliente',
+    'nombre',
+    'apellido1',
+    'apellido2',
+    'celular',
+    'correo',
+    'botonera',
+  ];
   // datos : any;
 
   //dataSourceX = new MatTableDataSource<TipoCliente>();
 
-  dataSource = signal(new MatTableDataSource<TipoCliente>()); 
+  dataSource = signal(new MatTableDataSource<TipoCliente>());
 
-  mostrarDialogo(titulo : string, datos? : TipoCliente) {
-    const dialogoRef = this.dialogo.open(FrmCliente,
-      {
-        
-        width: '50vw',
-        maxWidth: '35rem',        
-        data : {
-          title: titulo,
-          datos : datos
-        },
-        disableClose : true
-      });
+  mostrarDialogo(titulo: string, datos?: TipoCliente) {
+    const dialogoRef = this.dialogo.open(FrmCliente, {
+      width: '50vw',
+      maxWidth: '35rem',
+      data: {
+        title: titulo,
+        datos: datos,
+      },
+      disableClose: true,
+    });
   }
   filtrar(filtro: {}) {
-      this.clienteSrv.filtrar(filtro)
-      .subscribe({
-        next : 
-          (data) => {
-              console.log(data);
-              this.dataSource.set(data);
-          },
-        error : (err) => console.log(err)
-      });
+    this.clienteSrv.filtrar(filtro).subscribe({
+      next: (data) => {
+        console.log(data);
+        this.dataSource.set(data);
+      },
+      error: (err) => console.log(err),
+    });
   }
-  onNuevo(){
+  onNuevo() {
     this.mostrarDialogo('Nuevo Cliente');
   }
-  onEditar(id : number) {
+  onEditar(id: number) {
     alert(id);
   }
-  onEliminar(id : number) {
-
-  }
-  onInfo(id : number) {
-
-  }
-  onResetearPassw(id : number) {
-
-  }
+  onEliminar(id: number) {}
+  onInfo(id: number) {}
+  onResetearPassw(id: number) {}
   ngAfterViewInit(): void {
-      this.filtrar({idCliente: '', nombre: '', apellido1 : '', apellido2 : ''})
-  }
-
+    this.filtrar({ idCliente: '', nombre: '', apellido1: '', apellido2: '' });
+  }
 }
