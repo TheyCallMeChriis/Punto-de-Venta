@@ -1,6 +1,6 @@
 import { Component, signal } from '@angular/core';
-import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
+import { MatListModule } from '@angular/material/list';
 import { RouterModule } from '@angular/router';
 
 type MenuItem = {
@@ -17,9 +17,10 @@ type MenuItem = {
 })
 export class SideNav {
   menuItem = signal<MenuItem[]>([
-    { icon: 'home',
+    {
+      icon: 'home',
       label: 'Inicio',
-      route: 'home' 
+      route: 'home'
     },
     {
       icon: 'groups',
@@ -28,12 +29,12 @@ export class SideNav {
     },
     {
       icon: 'tv',
-      label: 'Artefactos',
+      label: 'Artefacto',
       route: 'artefacto'
     },
     {
       icon: 'engineering',
-      label: 'Técnicos',
+      label: 'Tecnicos',
       route: 'tecnico'
     },
     {
@@ -44,12 +45,18 @@ export class SideNav {
     {
       icon: 'handyman',
       label: 'Casos',
-      route: 'casos'
+      route: 'caso'
     },
     {
       icon: 'manage_accounts',
       label: 'Administradores',
-      route: 'admin'
+      route: 'administrador'
+    },
+    {
+      icon: 'key',
+      label: 'Login',
+      route: 'login'
     }
-  ]);
+  ])
 }
+

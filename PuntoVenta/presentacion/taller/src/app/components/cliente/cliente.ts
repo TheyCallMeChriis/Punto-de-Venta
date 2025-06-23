@@ -12,103 +12,105 @@ import { DialogoGeneral } from '../forms/dialogo-general/dialogo-general';
   selector: 'app-cliente',
   imports: [MatCardModule, MatTableModule, MatIconModule],
   templateUrl: './cliente.html',
-  styleUrl: './cliente.css',
+  styleUrl: './cliente.css'
 })
 export class Cliente implements AfterViewInit {
   private readonly clienteSrv = inject(ClienteService);
+
   private readonly dialogo = inject(MatDialog);
-  columnas: string[] = [
-    'idCliente',
-    'nombre',
-    'apellido1',
-    'apellido2',
-    'celular',
-    'correo',
-    'botonera',
-  ];
-  datos: any;
+
+  columnas: string[] = ['idCliente', 'nombre', 'apellido1', 'apellido2', 'celular', 'correo', 'botonera']
+  // datos : any;
+
+  //dataSourceX = new MatTableDataSource<TipoCliente>();
+
   dataSource = signal(new MatTableDataSource<TipoCliente>());
+
   filtro: any;
 
   mostrarDialogo(titulo: string, datos?: TipoCliente) {
-    const dialogoRef = this.dialogo.open(FrmCliente, {
-      width: '50vw',
-      maxWidth: '35rem',
-      data: {
-        title: titulo,
-        datos: datos,
-      },
-      disableClose: true,
-    });
-    dialogoRef.afterClosed().subscribe({
-      next: (res) => {
-        if (res != false) {
-          this.resetearFiltro();
-        }
-      },
-      error: (err) => {
-        console.log(err);
-      },
-    });
+    const dialogoRef = this.dialogo.open(FrmCliente,
+      {
+        width: '50vw',
+        maxWidth: '35rem',
+        data: {
+          title: titulo,
+          datos: datos
+        },
+        disableClose: true
+      });
+    dialogoRef.afterClosed()
+      .subscribe({
+        next: (res) => {
+          if (res != false) {
+            this.resetearFiltro();
+          }
+        },
+        error: (err) => (console.log(err))
+      })
   }
+
   resetearFiltro() {
-    this.filtro = { idCliente: '', nombre: '', apellido1: '', apellido2: '' };
+    this.filtro = { idCliente: '', nombre: '', apellido1: '', apellido2: '' }
     this.filtrar();
   }
 
   filtrar() {
-    this.clienteSrv.filtrar(this.filtro).subscribe({
-      next: (data) => {
-        console.log(data);
-        this.dataSource.set(data);
-      },
-      error: (err) => console.log(err),
-    });
+    this.clienteSrv.filtrar(this.filtro)
+      .subscribe({
+        next:
+          (data) => {
+            console.log(data);
+            this.dataSource.set(data);
+          },
+        error: (err) => console.log(err)
+      });
   }
-
   onNuevo() {
     this.mostrarDialogo('Nuevo Cliente');
   }
-
   onEditar(id: number) {
-    this.clienteSrv.buscar(id).subscribe({
-      next: (data) => {
-        this.mostrarDialogo('Editar Cliente', data);
-      },
-    });
+    this.clienteSrv.buscar(id)
+      .subscribe({
+        next: (data) => {
+          this.mostrarDialogo('Editar Cliente', data);
+
+        }
+      })
   }
-
-  onInfo(id: number) {}
-
-  onResetearPassword(id: number) {}
-
   onEliminar(id: number) {
-    const dialogRef = this.dialogo.open(DialogoGeneral, {
+    const dialogoRef = this.dialogo.open(DialogoGeneral, {
       data: {
-        texto: '¿Eliminar registro seleccionado?',
+        texto: '¿Eliminar Registro Selecciondo?',
         icono: 'question_mark',
-        textoAceptar: 'Si',
-        textoCancelar: 'No',
-      },
-    });
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result === true) {
-        this.clienteSrv.eliminar(id).subscribe((res: any) => {
-          //crear el resetear el filtro
-          this.dialogo.open(DialogoGeneral, {
-            data: {
-              texto: 'Registro eliminado correctamente!',
-              icono: 'check',
-              textoAceptar: 'Aceptar',
-            },
-          });
-        });
+        textoAerea: 'si',
+        textoCancelar: 'no'
       }
     });
+    dialogoRef.afterClosed().subscribe(result => {
+      if (result === true) {
+        this.clienteSrv.eliminar(id)
+          .subscribe((res: any) => {
+            this.dialogo.open(DialogoGeneral, {
+              data: {
+                texto: 'Registro eliminado correctamente',
+                icono: 'check',
+                textoAceptar: 'Aceptar '
+              }
+            })
+          })
+      }
+    })
   }
+  onInfo(id: number) {
 
+  }
+  onResetearPassw(id: number) {
+
+  }
   ngAfterViewInit(): void {
-    this.filtro = { idCliente: '', nombre: '', apellido1: '', apellido2: '' };
+    this.filtro = { idCliente: '', nombre: '', apellido1: '', apellido2: '' }
     this.filtrar();
   }
+
 }
