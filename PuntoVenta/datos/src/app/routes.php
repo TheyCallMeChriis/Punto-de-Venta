@@ -2,31 +2,34 @@
 namespace App\controllers;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
-//use Psr\Container\ContainerInterface;
+
 use Slim\Routing\RouteCollectorProxy;
 
 $app->get('/', function (Request $request, Response $response, $args) {
-    $response->getBody()->write("Hello World!");
+    $response->getBody()->write("Hola Mundo!");
     return $response;
 });
 
-$app->group('/api',function(RouteCollectorProxy $api){
-    $api->group('/artefacto',function(RouteCollectorProxy $endpoint){
-        $endpoint->get('/read[/{id}]',Artefacto::class .':read');//leer
-        $endpoint->post('',Artefacto::class.':create'); //crear
-        $endpoint->put('/{id}',Artefacto::class . ':update');//actualizar
-        $endpoint->delete('/{id}',Artefacto::class . ':delete');//eliminar
-        $endpoint->get('/filtrar/{pag}/{lim}',Artefacto::class . ':filtrar'); //filtrar
+
+$app->group('/api', function (RouteCollectorProxy $api) {
+    $api->group('/artefacto', function (RouteCollectorProxy $endpoint) {
+        $endpoint->get('/read[/{id}]', Artefacto::class . ':read');
+        $endpoint->post('', Artefacto::class . ':create');
+        $endpoint->put('/{id}', Artefacto::class . ':update');
+        $endpoint->delete('/{id}', Artefacto::class . ':delete');
+        $endpoint->get('/filtrar/{pag}/{lim}', Artefacto::class . ':filtrar');
     });
 
 
+
     $api->group('/cliente', function (RouteCollectorProxy $endpoint) {
-        $endpoint->get('/read[/{id}]', Cliente::class . ':read');
+        $endpoint->get('/{id}', Cliente::class . ':buscar');
         $endpoint->post('', Cliente::class . ':create');
         $endpoint->put('/{id}', Cliente::class . ':update');
         $endpoint->delete('/{id}', Cliente::class . ':delete');
         $endpoint->get('/filtrar/{pag}/{lim}', Cliente::class . ':filtrar');
     });
+
 
     $api->group('/administrador', function (RouteCollectorProxy $endpoint) {
         $endpoint->get('/read[/{id}]', Administrador::class . ':read');
