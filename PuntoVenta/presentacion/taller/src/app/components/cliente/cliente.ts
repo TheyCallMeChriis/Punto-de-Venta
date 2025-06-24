@@ -81,10 +81,10 @@ export class Cliente implements AfterViewInit {
   onEliminar(id: number) {
     const dialogoRef = this.dialogo.open(DialogoGeneral, {
       data: {
-        texto: '¿Eliminar Registro Selecciondo?',
+        texto: '¿Eliminar Registro Seleccionado?',
         icono: 'question_mark',
-        textoAerea: 'si',
-        textoCancelar: 'no'
+        textoAerea: 'Si',
+        textoCancelar: 'No'
       }
     });
     dialogoRef.afterClosed().subscribe(result => {
@@ -95,7 +95,7 @@ export class Cliente implements AfterViewInit {
               data: {
                 texto: 'Registro eliminado correctamente',
                 icono: 'check',
-                textoAceptar: 'Aceptar '
+                textoAceptar: 'Aceptar'
               }
             })
           })
