@@ -1,9 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { initFlowbite  } from 'flowbite';
+import { initFlowbite } from 'flowbite';
 import { SideNav } from './components/side-nav/side-nav';
-import { Header } from './components/header/header';
-
+import { Header } from './components/header/header'; // Agrega esta línea
 
 
 @Component({
@@ -14,7 +13,8 @@ import { Header } from './components/header/header';
 })
 export class App implements OnInit {
   protected title = 'taller';
-  ngOnInit(): void {
+
+  ngOnInit() : void {
     initFlowbite();
   }
 }

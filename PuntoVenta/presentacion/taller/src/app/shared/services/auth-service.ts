@@ -8,24 +8,26 @@ const _SERVER = 'http://localhost:8000'
   providedIn: 'root'
 })
 export class AuthService {
-  private http = inject(HttpClient)
+  private http = inject(HttpClient);
   constructor() { }
 
-  public login(datos : {idUsuario : '', passw:''}) : Observable<any>{
+  public login(datos : {idUsuario : '', passw : ''}) : Observable<any>{
     return this.http
       .patch<any>(`${_SERVER}/api/auth`, datos)
       .pipe(
         retry(1),
-        tap((tokens) =>{
+        tap((tokens)=>{
+          this.doLogin()
           console.log(tokens);
         }),
-        map(() => true),
-        catchError((error) =>{
+        map(()=>true),
+        catchError((error)=>{
           return of(error.status)
         })
       )
   }
   private doLogin(){
-    
+    //guardar los tokens
+    //actualizar datos globales para user y rol
   }
 }

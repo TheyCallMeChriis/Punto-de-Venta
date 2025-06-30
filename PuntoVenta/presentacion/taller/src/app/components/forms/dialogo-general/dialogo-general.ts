@@ -1,11 +1,11 @@
 import { Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MatIconModule } from '@angular/material/icon';
+import { MatIcon, MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-dialogo-general',
-  imports: [MatDialogModule, MatButtonModule, MatIconModule],
+  imports: [MatButtonModule, MatDialogModule, MatIcon, MatIconModule],
   templateUrl: './dialogo-general.html',
   styleUrl: './dialogo-general.css'
 })

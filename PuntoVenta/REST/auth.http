@@ -1,3 +1,4 @@
+
 @uriAuth = http://localhost:8000/api/auth
 @token = Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJsb2NhbGhvc3QiLCJpYXQiOjE3NDkyMjYxMDQsImV4cCI6MTc0OTIyOTcwNCwic3ViIjoiOCIsInJvbCI6IjQiLCJub20iOiJzZGEifQ.kWAWywQ1BACyhyTHYxQ6JXlEkSgknINxoD1n5dhoPDQ
 
@@ -6,7 +7,7 @@ Content-Type: application/json
 
 {
   "idUsuario": "1",
-  "passw": "1234",
+  "passw": "1020"
 }
 
 ###
@@ -22,12 +23,10 @@ Content-Type: application/json
 
 ###
 
-DELETE {{uriAuth}}/2
+DELETE {{uriAuth}}/2
 
 ###
 
-INSERT INTO Usuario (idUsuario, passw, rol, nombre)
-VALUES (8, '8', '4', 'Chris');
 
 
 
@@ -38,6 +37,10 @@ GET {{uriCliente}}/read
 Content-Type: application/json
 Authorization: {{token}}
 
+###
+
+GET {{uriCliente}}/4
+Content-Type: application/json
 
 ###
 
@@ -46,7 +49,7 @@ Content-Type: application/json
 Authorization: {{token}}
 
 {
-  "idCliente": 8,
+  "idCliente": 3,
   "nombre": "sda",
   "apellido1": "asda",
   "apellido2": "asd",
@@ -57,3 +60,13 @@ Authorization: {{token}}
 }
 
 ###
+GET http://localhost:8000/api/user/1
+
+###
+PATCH http://localhost:8000/api/user/change/1
+Content-Type: application/json
+
+{
+    "passw": "1",
+    "passwN": "5"
+}
