@@ -10,7 +10,7 @@ describe('DialogoGeneral', () => {
     await TestBed.configureTestingModule({
       imports: [DialogoGeneral]
     })
-    .compileComponents();
+      .compileComponents();
 
     fixture = TestBed.createComponent(DialogoGeneral);
     component = fixture.componentInstance;

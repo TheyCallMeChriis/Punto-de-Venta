@@ -1,49 +1,54 @@
-import { Injectable, inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { HttpParams } from '@angular/common/http';
-import { TipoCliente } from '../models/interfaces';
+import { inject, Injectable } from '@angular/core';
+import { HttpClient,HttpParams } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
+import { TipoCliente } from '../models/interface';
 import { retry, map, catchError } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
-const _SERVER = 'http://localhost:8000';
+const _SERVER = environment.servidor;
+
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class ClienteService {
   private readonly http = inject(HttpClient);
-  constructor() {}
+  constructor() { }
 
-  filtrar(parametros: any) {
-    let params = new HttpParams();
+  filtrar(parametros : any) {
+    let paranms = new HttpParams;
     for (const prop in parametros) {
-      params = params.append(prop, parametros[prop]);
+        paranms = paranms.append(prop, parametros[prop])
     }
-    return this.http.get<any>(`${_SERVER}/api/cliente/filtrar/0/5`, { params });
+    return this.http.get<any>(`${_SERVER}/api/cliente/filtrar/0/5`, 
+        { params : paranms }
+      );  
   }
 
-  guardar(datos: TipoCliente, id?: number): Observable<TipoCliente> {
-    delete datos.id;
-    if (id) {
+  guardar(datos: TipoCliente, id?: number) :Observable<TipoCliente> {
+    delete datos.id;// Eliminar el id si existe, ya que no se debe enviar al servidor al crear un nuevo cliente
+    console.log(datos);
+    if(id){
       return this.http.put<any>(`${_SERVER}/api/cliente/${id}`, datos);
     }
     return this.http.post<any>(`${_SERVER}/api/cliente`, datos);
   }
 
-  eliminar(id: number) {
-    return this.http.delete<any>(`${_SERVER}/api/cliente/${id}`).pipe(
+  eliminar(id: number) : Observable<any> {
+    return this.http.delete<any>(`${_SERVER}/api/cliente/${id}`)
+    .pipe(
       retry(1),
-      map(() => true),
-      catchError(this.handleError)
+      map(()=> true),
+      catchError(this.handleError),
     );
   }
-
-  buscar(id: number) {
-    return this.http.get<TipoCliente>(`${_SERVER}/api/cliente/${id}`);
+  buscar(id: number){
+    return this.http.get<TipoCliente>(`${_SERVER}/api/cliente/${id}`)
   }
-
   private handleError(error: any) {
-    return throwError(() => {
-      return error.status;
-    });
+    return throwError(
+      () => {
+        return error.status
+      }
+    )
   }
 }

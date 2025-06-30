@@ -3,7 +3,7 @@
 </h2>
 <mat-divider class="border-2"></mat-divider>
 <mat-dialog-content>
-    <form id="miFormulario" [formGroup]="frmLogin" (ngSubmit)="onLogin()">
+    <form id="miFormulario" [formGroup]="frmLogin" (ngSubmit)="onLogin();">
         <mat-form-field class="w-full">
             <mat-label>Usuario</mat-label>
             <input matInput formControlName="idUsuario">
@@ -12,12 +12,13 @@
             <mat-label>Contraseña</mat-label>
             <input matInput formControlName="passw" type="password">
         </mat-form-field>
+        @if(errorLogin()){
+        <span class="text-red-600">Usuario o Contraseña no valida</span>
+        }
         <input type="hidden" formControlName="id">
     </form>
-
 </mat-dialog-content>
 <mat-divider class="border-2"></mat-divider>
 <mat-dialog-actions>
-    <button mat-button mat-raised-button type="submit" form="miFormulario">Iniciar</button>
-    <button mat-button [mat-dialog-close]="false">Cancelar</button>
+    <button mat-button mat-raised-button type="submit" form="miFormulario" >Iniciar</button>
 </mat-dialog-actions>

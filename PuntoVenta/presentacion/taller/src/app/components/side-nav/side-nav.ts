@@ -17,9 +17,10 @@ type MenuItem = {
 })
 export class SideNav {
   menuItem = signal<MenuItem[]>([
-    { icon: 'home',
+    {
+      icon: 'home',
       label: 'Inicio',
-      route: 'home' 
+      route: 'home'
     },
     {
       icon: 'groups',
@@ -50,11 +51,6 @@ export class SideNav {
       icon: 'manage_accounts',
       label: 'Administradores',
       route: 'admin'
-    },
-    {
-      icon: 'key',
-      label: 'Login',
-      route: 'login'
     }
   ]);
 }
