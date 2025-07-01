@@ -1,41 +1,33 @@
 <?php
+   
+    use Slim\Factory\AppFactory;
+    use DI\Container;
 
-use Slim\Factory\AppFactory;
-use DI\Container;
+    require __DIR__ . '/../../vendor/autoload.php';
 
-require __DIR__ . '/../../vendor/autoload.php';
+    $dotenv = Dotenv\Dotenv::createImmutable('/var/www/html');
+    $dotenv->load();
 
-$dotenv = Dotenv\Dotenv::createImmutable('/var/www/html');
-$dotenv->load();
+    $container = new Container();
 
-$container = new Container();
+    AppFactory::SetContainer($container);
+    
+    $app = AppFactory::create();
 
-AppFactory::SetContainer($container);
+    require "config.php";
 
-$app = AppFactory::create();
+    $app->add(new Tuupola\Middleware\JwtAuthentication([
+            "secure" => false,
+            "path" => ["/api"],
+            "ignore" => ["/api/auth", "/api/cliente", "/api/usr"],
+            "secret" =>["acme"=>$container->get('key')],
+            "algorithm" => ["acme"=>"HS256"]
+        ]));
 
-require 'config.php';
 
-$app->add(new Tuupola\Middleware\JwtAuthentication([
-  "secure" => false,
-  "path" => ["/api"],
-  "ignore" => ["/api/auth", "/api/user", "/api/cliente"],
-  "secret" => ["acme" => $container->get('key')],
-  "algorithm" => ["acme" => "HS256"],
-]));
+    require "conexion.php";
 
-//$rules = [
-//  new RequestMethodRule(ignore: ['OPTIONS']),
-//  new RequestPathRule(
-//    paths: ['/api'], 
-//    ignore: ['/api/auth'])
-//]; //!Nuevo 4/05/25
+    require "routes.php";
+    
 
-//$decoder = new FirebaseDecoder(new Secret($container->get('key'), 'HS256'));
-//$authentication = new JwtAuthentication(new Options(), $decoder, $rules);
-//$app->addMiddleware($authentication); /* Nuevo 4/05/25 */
-
-require 'conexion.php';
-require 'routes.php';
-
-$app->run();
+    $app->run();

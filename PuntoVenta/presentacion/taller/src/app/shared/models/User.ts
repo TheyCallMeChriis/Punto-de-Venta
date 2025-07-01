@@ -1,7 +1,7 @@
 export class User {
-  idUsuario: string;
-  nombre: string;
-  rol: number;
+  idUsuario : string;
+  nombre : string;
+  rol : number;
 
   constructor(usr? : User) {
     this.idUsuario = usr !== undefined ? usr.idUsuario : '';

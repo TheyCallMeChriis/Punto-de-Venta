@@ -1,9 +1,8 @@
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
-import { catchError, map, of } from 'rxjs';
-import { environment } from '../../../environments/environment';
+import { map, catchError, of } from 'rxjs';
 
-const _SERVER = environment.servidor;
+const _SERVER = 'http://localhost:8000/api/usr';
 
 @Injectable({
   providedIn: 'root'
@@ -13,17 +12,13 @@ export class UsuarioService {
 
   constructor() { }
 
-  resetearPassw(id: string) {
-    return this.http.patch<any>(`${_SERVER}/api/usr/reset/${id}`, {})
+  resetearPassw(id : string) {
+    return this.http.patch<any>(`${_SERVER}/api/usr/${id}`, {})
       .pipe(
-        map((error) => {
-          catchError((error) =>{
-            return of(error.status)
-          })   
+        map(() => true),
+        catchError((error) => {
+          return of(error.status);
         })
       );
   }
-
 }
-
-

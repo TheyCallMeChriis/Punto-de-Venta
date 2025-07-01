@@ -4,7 +4,6 @@ import { initFlowbite } from 'flowbite';
 import { SideNav } from './components/side-nav/side-nav';
 import { Header } from './components/header/header'; // Agrega esta línea
 
-
 @Component({
   selector: 'app-root',
   imports: [RouterOutlet, SideNav, Header],
